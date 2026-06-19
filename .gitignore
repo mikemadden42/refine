@@ -1,0 +1,12 @@
+# CMake build directory
+/build/
+
+# Compiled binary (from a direct gcc build in the project root)
+/refine
+
+# Object files
+*.o
+
+# Editor/OS cruft
+*.swp
+.DS_Store
