@@ -63,3 +63,7 @@ extension.
 | `0`  | Success (or help displayed). |
 | `1`  | The path does not exist or is not a directory. |
 | `2`  | Invalid command-line arguments. |
+
+## License
+
+Released under the [MIT License](LICENSE).
