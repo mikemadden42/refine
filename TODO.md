@@ -16,9 +16,11 @@ memory-safe with error paths handled; these are mostly tooling/packaging gaps.
 - [x] **Add a LICENSE file.** The README reads like a public project, but with no
       license it is legally "all rights reserved." Add one (MIT is typical for a
       tool like this) if it is meant to be shared.
-- [ ] **Add tests + CI.** Fine for a ~200-line tool today, but nothing guards
+- [x] **Add tests + CI.** Fine for a ~200-line tool today, but nothing guards
       against regressions. A small shell test (build a temp dir, diff expected
       output) plus a GitHub Actions workflow would lock in the hardened behavior.
+      Done: `tests/run_tests.sh` (wired into CTest) + `.github/workflows/ci.yml`
+      building and testing on Ubuntu and macOS.
 
 ## Minor / cosmetic
 

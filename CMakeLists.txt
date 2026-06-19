@@ -25,3 +25,9 @@ endif()
 
 include(GNUInstallDirs)
 install(TARGETS refine RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+enable_testing()
+add_test(
+    NAME blackbox
+    COMMAND ${CMAKE_COMMAND} -E env sh
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/run_tests.sh $<TARGET_FILE:refine>)

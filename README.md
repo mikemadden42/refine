@@ -22,6 +22,20 @@ The resulting binary is `build/refine`.
 gcc -std=c17 -Wall -Wextra -o refine refine.c
 ```
 
+## Testing
+
+After building, run the black-box test suite via CTest:
+
+```sh
+ctest --test-dir build --output-on-failure
+```
+
+Or invoke the script directly against a built binary:
+
+```sh
+sh tests/run_tests.sh build/refine
+```
+
 ## Usage
 
 ```
