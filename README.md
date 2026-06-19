@@ -39,7 +39,6 @@ refine [-a|--all] [-h|--help] [path]
 ```
 $ refine
 No Extension:
-- Makefile
 - refine
 
 c:
@@ -47,6 +46,10 @@ c:
 
 md:
 - README.md
+- TODO.md
+
+txt:
+- CMakeLists.txt
 ```
 
 Files with no extension are listed under `No Extension`. Within each group,

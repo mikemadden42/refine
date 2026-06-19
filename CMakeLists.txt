@@ -9,6 +9,12 @@ set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
 
+# Default to an optimized build when the user hasn't chosen a type, so a bare
+# `cmake -S . -B build` doesn't silently produce an unoptimized binary.
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+endif()
+
 add_executable(refine refine.c)
 
 if(MSVC)

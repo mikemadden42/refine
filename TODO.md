@@ -5,7 +5,7 @@ memory-safe with error paths handled; these are mostly tooling/packaging gaps.
 
 ## Worth doing
 
-- [ ] **Set a default CMake build type.** A bare `cmake -S . -B build` configures
+- [x] **Set a default CMake build type.** A bare `cmake -S . -B build` configures
       with no optimization and no `NDEBUG`, silently producing an unoptimized
       binary. Default to `Release` when the user doesn't specify one:
       ```cmake
@@ -22,7 +22,7 @@ memory-safe with error paths handled; these are mostly tooling/packaging gaps.
 
 ## Minor / cosmetic
 
-- [ ] **Fix README example drift.** The example output lists a `Makefile`, but the
+- [x] **Fix README example drift.** The example output lists a `Makefile`, but the
       project ships CMake, not a Makefile. Swap it for files that actually exist
       (`CMakeLists.txt`, `README.md`).
 - [ ] **Support `--` end-of-options separator.** A file literally named `-foo`
