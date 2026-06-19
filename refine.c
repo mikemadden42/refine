@@ -101,9 +101,10 @@ static const char *get_extension(const char *name) {
 }
 
 static void print_usage(const char *prog) {
-    printf("Usage: %s [-a|--all] [-h|--help] [path]\n", prog);
+    printf("Usage: %s [-a|--all] [-h|--help] [--] [path]\n", prog);
     printf("  -a, --all   Include hidden files (those starting with '.')\n");
     printf("  -h, --help  Show this help message\n");
+    printf("  --          Treat the following argument as a path, even if it starts with '-'\n");
     printf("  path        Directory to inspect (default: current directory)\n");
 }
 
@@ -111,14 +112,19 @@ int main(int argc, char *argv[]) {
     const char *path = ".";
     bool show_hidden = false;
     bool path_set = false;
+    bool options_done = false;  /* set once "--" is seen */
 
     for (int i = 1; i < argc; ++i) {
-        if (strcmp(argv[i], "-a") == 0 || strcmp(argv[i], "--all") == 0) {
+        if (!options_done && strcmp(argv[i], "--") == 0) {
+            options_done = true;
+        } else if (!options_done &&
+                   (strcmp(argv[i], "-a") == 0 || strcmp(argv[i], "--all") == 0)) {
             show_hidden = true;
-        } else if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0) {
+        } else if (!options_done &&
+                   (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0)) {
             print_usage(argv[0]);
             return 0;
-        } else if (argv[i][0] == '-') {
+        } else if (!options_done && argv[i][0] == '-') {
             fprintf(stderr, "Unknown option: %s\n", argv[i]);
             print_usage(argv[0]);
             return 2;

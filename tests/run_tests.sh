@@ -130,12 +130,29 @@ check "include hidden -a"  0 "$work/expected_all"     -- -a "$fixture"
 check "include hidden --all" 0 "$work/expected_all"   -- --all "$fixture"
 check "empty directory"    0 "$work/expected_empty"   -- "$work/empty"
 
+# "--" ends option parsing; the following argument is treated as a path.
+check "separator before path"     0 "$work/expected_default" -- -- "$fixture"
+check "options before separator"  0 "$work/expected_all"     -- -a -- "$fixture"
+
+# A directory literally named like an option is reachable only after "--".
+dashdir="$work/-weird"
+mkdir "$dashdir"
+touch "$dashdir/x.txt"
+cat >"$work/expected_dashdir" <<'EOF'
+txt:
+- x.txt
+
+EOF
+check "dash-prefixed path via --"  0 "$work/expected_dashdir" -- -- "$dashdir"
+
 check_exit "help -h"            0 -- -h
 check_exit "help --help"        0 -- --help
 check_exit "nonexistent path"   1 -- "$work/does-not-exist"
 check_exit "not a directory"    1 -- "$fixture/a.txt"
 check_exit "unknown option"     2 -- --bogus
 check_exit "extra argument"     2 -- "$fixture" "$fixture"
+check_exit "dash path needs --" 2 -- -weird
+check_exit "extra arg after --" 2 -- -- "$fixture" "$fixture"
 
 echo
 printf '%s test(s) run, %s failed\n' "$tests_run" "$tests_failed"

@@ -39,14 +39,18 @@ sh tests/run_tests.sh build/refine
 ## Usage
 
 ```
-refine [-a|--all] [-h|--help] [path]
+refine [-a|--all] [-h|--help] [--] [path]
 ```
 
 | Option | Description |
 | ------ | ----------- |
 | `-a`, `--all`  | Include hidden files (those starting with `.`). |
 | `-h`, `--help` | Show the help message and exit. |
+| `--`           | Treat everything after it as a path, even if it begins with `-`. |
 | `path`         | Directory to inspect (default: current directory). |
+
+Use `--` to inspect a directory whose name begins with `-`, e.g.
+`refine -- -weird`.
 
 ## Example
 

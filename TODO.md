@@ -27,9 +27,10 @@ memory-safe with error paths handled; these are mostly tooling/packaging gaps.
 - [x] **Fix README example drift.** The example output lists a `Makefile`, but the
       project ships CMake, not a Makefile. Swap it for files that actually exist
       (`CMakeLists.txt`, `README.md`).
-- [ ] **Support `--` end-of-options separator.** A file literally named `-foo`
+- [x] **Support `--` end-of-options separator.** A file literally named `-foo`
       cannot currently be passed as a path. Niche — the original C++ had the same
-      limitation, so skip unless needed.
+      limitation, so skip unless needed. Done: `--` ends option parsing; covered
+      by tests and documented in the usage/help output.
 
 ## Non-issues (deliberate, matching the original C++)
 
