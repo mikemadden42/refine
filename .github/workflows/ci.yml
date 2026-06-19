@@ -8,15 +8,33 @@ on:
 
 jobs:
   build-and-test:
-    name: build & test (${{ matrix.os }})
+    name: build & test (${{ matrix.os }}, ${{ matrix.compiler }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
+        compiler: [gcc, clang]
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Select compiler
+        run: |
+          if [ "${{ matrix.compiler }}" = "clang" ]; then
+            echo "CC=clang" >> "$GITHUB_ENV"
+          elif [ "${{ runner.os }}" = "macOS" ]; then
+            # On macOS `gcc` is a symlink to Apple Clang, so install real GNU GCC
+            # and use its versioned binary (e.g. gcc-14).
+            brew install gcc
+            gcc_bin=$(ls "$(brew --prefix)"/bin/gcc-[0-9]* | sort -V | tail -n1)
+            echo "CC=$gcc_bin" >> "$GITHUB_ENV"
+          else
+            echo "CC=gcc" >> "$GITHUB_ENV"
+          fi
+
+      - name: Report compiler
+        run: "$CC --version"
 
       - name: Configure
         run: cmake -S . -B build
