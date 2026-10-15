@@ -156,7 +156,8 @@ check_exit "help -h"            0 -- -h
 check_exit "help --help"        0 -- --help
 check_exit "nonexistent path"   1 -- "$work/does-not-exist"
 check_exit "not a directory"    1 -- "$fixture/a.txt"
-check_exit "unknown option"     2 -- --bogus
+# Usage on the error path goes to stderr, so stdout stays empty.
+check "unknown option"           2 "$work/expected_empty"   -- --bogus
 check_exit "extra argument"     2 -- "$fixture" "$fixture"
 check_exit "dash path needs --" 2 -- -weird
 check_exit "extra arg after --" 2 -- -- "$fixture" "$fixture"
