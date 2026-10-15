@@ -145,6 +145,13 @@ txt:
 EOF
 check "dash-prefixed path via --"  0 "$work/expected_dashdir" -- -- "$dashdir"
 
+# Entries whose stat() fails are skipped silently, even when nothing follows
+# them (regression: a stale errno was misreported as a directory read error).
+brokendir="$work/broken"
+mkdir "$brokendir"
+ln -s "$work/nowhere" "$brokendir/dangling.txt"
+check "dangling symlink only"      0 "$work/expected_empty"   -- "$brokendir"
+
 check_exit "help -h"            0 -- -h
 check_exit "help --help"        0 -- --help
 check_exit "nonexistent path"   1 -- "$work/does-not-exist"

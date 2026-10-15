@@ -156,9 +156,14 @@ int main(int argc, char *argv[]) {
     ExtensionMap map = {0};
     size_t path_len = strlen(path);
 
-    struct dirent *entry;
-    errno = 0;
-    while ((entry = readdir(dir)) != NULL) {
+    /* readdir signals errors only via errno, so clear it before every call:
+       a failed stat() on a previous entry must not look like a read error. */
+    for (;;) {
+        errno = 0;
+        struct dirent *entry = readdir(dir);
+        if (!entry) {
+            break;
+        }
         const char *name = entry->d_name;
         if (!show_hidden && name[0] == '.') {
             continue;
@@ -180,7 +185,6 @@ int main(int argc, char *argv[]) {
 
         ExtensionGroup *group = map_get(&map, get_extension(name));
         group_add(group, xstrdup(name));
-        errno = 0;
     }
     if (errno != 0) {
         fprintf(stderr, "Error reading directory: %s: %s\n", path, strerror(errno));
